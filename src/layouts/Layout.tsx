@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import NavBar from '../comopents/NavBar'
+import Footer from '../comopents/Footer'
 
 const Layout = ({children}:{children: ReactNode}) => {
   return (
@@ -10,6 +11,7 @@ const Layout = ({children}:{children: ReactNode}) => {
      <main className='layout'>
         {children}
      </main>
+     <Footer/>
     </>
   )
 }
