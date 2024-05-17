@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #e0e0e0;
+  /* background-image: linear-gradient(to bottom, #dfe6f1, #cae0f6, #aedbf9, #8bd7fa, #5cd3f7); */
+}
+
+html{
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
