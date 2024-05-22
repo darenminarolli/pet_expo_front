@@ -1,11 +1,25 @@
-import React from 'react'
-
-const Modal = () => {
-  return (
-    <div className=' z-20 flex justify-center items-center bg-slate-100 border border-black p-4 '>
-      <h1>hi</h1>
-    </div>
-  )
+import React from 'react';
+interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    children:  any;
 }
+const Modal:  React.FC<ModalProps>  = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
 
-export default Modal
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 md:w-1/2 lg:w-1/2 h-fit">
+        <button
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+          onClick={onClose}
+        >
+          {/* &times; */}
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Modal;

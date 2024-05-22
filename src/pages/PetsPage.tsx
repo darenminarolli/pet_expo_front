@@ -1,17 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Layout from '../layouts/Layout'
 import PetCard from '../comopents/ui/PetCard'
+import { petService } from '../services/AnimalService'
+import { Pet } from '../types/animal'
 
 const PetsPage = () => {
+  const params = useParams()
+  const { type } = params
+  const [pets, setPets] = useState<Pet[]>([])
+  const [error, setError] = useState<string | undefined>()
+  useEffect(()=>{
+    const fetchPets = async ()=>{
+      if(type === 'birds'|| type === 'cats' || type === 'dogs')
+      try {
+        const data = await petService.getPets(type)
+        setPets(data)
+      } catch (error) {
+        console.log(error)
+        setError('Error getting pets! Please try again!')
+      }
+      else{
+        setError('Invalid pet type')
+      }
+    }
+    fetchPets()
+  },[type])
+  console.log(pets)
+ if(error){
+  return <div>{error}</div>
+ }
   return (
     <Layout>
        <div className='w-full flex flex-wrap gap-10 my-14 md:my-24 md:py-24'>
-
-         <PetCard name='Pooh' location='Tirana,Albania' imageUrl='https://cdn.pixabay.com/photo/2017/09/25/13/12/puppy-2785074_640.jpg'/>
-         <PetCard name='Pooh' location='Tirana,Albania' imageUrl='https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*'/>
-
-         <PetCard name='Pooh' location='Tirana,Albania' imageUrl='https://t3.ftcdn.net/jpg/06/10/71/64/360_F_610716498_li6BIgt75TXw8B4W89pbf3VtKgHNQkXo.jpg'/>
-
+       {pets.length > 0 ? (
+          pets.map((pet) => <PetCard key={pet.id} pet={pet} />)
+        ) : (
+          <div>No pets found!</div>
+        )}
        </div>
     </Layout>
   )
