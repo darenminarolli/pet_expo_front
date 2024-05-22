@@ -1,24 +1,24 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
 <nav className="flex  max-w-[1450px] justify-between items-center fixed w-full px-24 py-4">
   <h1 className="text-lg font-bold underline"> <a href="/">#PetExpo</a></h1>
   <ul className="flex gap-4">
     <li>
-      <a href="/">Home</a>
+      <Link to="/">Home</Link>
     </li>
     <li>
-      <a href="/pets">Pets</a>
+      <Link to="/pets" >Pets</Link>
     </li>
     <li>
-      <a href="#about">Rreth Nesh</a>
+      <Link to="#about">Rreth Nesh</Link>
     </li>
     <li>
-      <a href="#contact">Na Kontaktoni</a>
+      <Link to="#contact">Na Kontaktoni</Link>
     </li>
     <li>
-      <a href="/admin">Admin</a>
+      <Link to="/admin">Admin</Link>
     </li>
   </ul>
 </nav> 

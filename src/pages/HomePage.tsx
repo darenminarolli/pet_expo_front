@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <Layout>
 
-    <section className='w-full  flex flex-wrap justify-between my-14 md:my-24 md:py-24  '>
+    <section className='w-full flex flex-wrap justify-between my-14 md:my-24 md:py-24  '>
      <div className='md:w-1/3 flex flex-col gap-x-4 '>
         <h1>Pet Expo </h1>
         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore, ipsa accusamus labore totam deleniti laudantium sunt quibusdam, nihil vitae officiis incidunt? Expedita repellat ex commodi sequi minima illum eligendi blanditiis.</p>

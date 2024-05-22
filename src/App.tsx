@@ -3,11 +3,12 @@ import './App.css'
 
 import HomePage from './pages/HomePage'
 import NavBar from './comopents/NavBar'
+import PetsPage from './pages/PetsPage'
 function App() {
   const router = createBrowserRouter(createRoutesFromElements(
     <>
     <Route path='/' element={<HomePage/>} />
-    <Route path='/pets' element={<NavBar/>} />
+    <Route path='/pets' element={<PetsPage/>} />
     {/* <Route path='/' element={<Layout/>}>
       <Route index element={<Home/>}/>
       <Route path='about' element={<About/>}/>
