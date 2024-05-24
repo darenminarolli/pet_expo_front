@@ -27,6 +27,9 @@
 .section-header{
   @apply text-lg md:text-5xl font-bold underline 
 }
+.secondary-header{
+  @apply text-base md:text-3xl
+}
 
 nav>ul>li>a{
   @apply hover:underline 

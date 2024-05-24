@@ -21,5 +21,14 @@ export const petService = {
           return [];
         }
       },
+      getPetByName: async (petType: 'birds' | 'dogs' | 'cats', name: string): Promise<Pet[]> => {
+        try {
+          const response: AxiosResponse<Pet[]> = await api.get(`/${petType}?search=${name}`);
+          return response.data ?? [];
+        } catch (error) {
+          console.error(`Error getting ${name}`, error);
+          return [];
+        }
+      },
 }
   

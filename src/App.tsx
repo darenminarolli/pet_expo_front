@@ -4,11 +4,14 @@ import './App.css'
 import HomePage from './pages/HomePage'
 import NavBar from './comopents/NavBar'
 import PetsPage from './pages/PetsPage'
+import AdminPage from './pages/AdminPage'
 function App() {
   const router = createBrowserRouter(createRoutesFromElements(
     <>
     <Route path='/' element={<HomePage/>} />
     <Route path='/pets/:type' element={<PetsPage/>} />
+    <Route path='/admin' element={<AdminPage/>} />
+    
     {/* <Route path='/' element={<Layout/>}>
       <Route index element={<Home/>}/>
       <Route path='about' element={<About/>}/>
