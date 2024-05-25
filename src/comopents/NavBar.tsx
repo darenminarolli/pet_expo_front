@@ -32,13 +32,13 @@ const Navbar = () => {
           </ul>
         </li>
         <li>
-          <Link to="#about">Rreth Nesh</Link>
+          <a href="/#about">Rreth Nesh</a>
         </li>
         <li>
-          <Link to="#contact">Na Kontaktoni</Link>
+          <a href="#contact">Na Kontaktoni</a>
         </li>
         <li>
-          <Link to="/admin">Admin</Link>
+          <a href="/admin">Admin</a>
         </li>
       </ul>
       <div className="md:hidden">
