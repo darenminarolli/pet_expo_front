@@ -1,7 +1,7 @@
 export interface Pet{
-id:number;
+_id:number;
 name:string;
-image:string;
+image_path:string;
 description:string;
 }
 export interface Bird  extends Pet{
@@ -16,8 +16,6 @@ export interface Bird  extends Pet{
   }
   
   export interface Dog extends Pet {
-  
-   
     breed_group: string;
     size: string;
     lifespan: string;

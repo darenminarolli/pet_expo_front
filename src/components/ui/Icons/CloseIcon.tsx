@@ -3,7 +3,7 @@ import React from 'react'
 const CloseIcon = ({onClick}:{onClick?:()=>void}) => {
   return (
     <svg
-            className="cursor-pointer"
+            className="cursor-pointer float-right"
             onClick={onClick}
             xmlns="http://www.w3.org/2000/svg"
             x="0px"

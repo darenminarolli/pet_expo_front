@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../layouts/Layout";
-import Button from "../comopents/ui/Button";
-import Filter from "../comopents/Filter";
-import SecondaryButton from "../comopents/ui/SecondaryButton";
-import SecondaryCard from "../comopents/ui/SecondaryCard";
+import Button from "../components/ui/Button";
+import Filter from "../components/Filter";
+import SecondaryButton from "../components/ui/SecondaryButton";
+import SecondaryCard from "../components/ui/SecondaryCard";
+import { Pet } from "../types/animal";
+import { petService } from "../services/AnimalService";
+import CreatePet from "../components/CreatePet";
 
 const AdminPage = () => {
+  const [pets,setPets] = useState<Pet[]>([])
+  const [petName, setPetName] = useState("")
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false)
+
+  useEffect(()=>{
+   const fetchPets = async ()=>{
+     try{
+       const data = await petService.getAllPets()
+       setPets(data)
+     }catch(error){
+       console.error(error)
+     }
+   }
+   fetchPets()
+  },[])
   return (
     <Layout>
       <section className="w-full flex flex-wrap gap-10 my-14 md:my-14 md:py-14 ">
         <div className="w-full flex flex-wrap justify-between items-center">
-          <h1 className="section-header ">#Admin Page</h1>
-          <Button className="md:w-1/6">Create New +</Button>
+          <h1 className="primary-header ">#Admin Page</h1>
+          <Button onClick={()=>setShowModal(true)} className="md:w-1/6">Create New +</Button>
         </div>
         <div className="w-full mt-6 md:mt-24 flex flex-wrap ">
           <div className="w-full flex">
@@ -47,11 +65,11 @@ const AdminPage = () => {
           </div>
         </div>
         {selectedType && <h2>Pet Selected: {selectedType}</h2>}
-
         <div className="w-full p-4 flex flex-col bg-slate-50 rounded-lg drop-shadow-xl ">
-           <SecondaryCard/>
+          {pets.map( pet=>  <SecondaryCard key={pet._id} pet={pet} />)}
         </div>
       </section>
+      {showModal && <CreatePet setShowModal={setShowModal}/>}
     </Layout>
   );
 };

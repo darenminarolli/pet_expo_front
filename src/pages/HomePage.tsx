@@ -1,8 +1,8 @@
 import React from 'react'
 import Layout from '../layouts/Layout'
-import AboutUs from '../comopents/AboutUs'
-import Contact from '../comopents/Contact'
-import Button from '../comopents/ui/Button'
+import AboutUs from '../components/AboutUs'
+import Contact from '../components/Contact'
+import Button from '../components/ui/Button'
 import { Link } from 'react-router-dom'
 const HomePage = () => {
   return (
@@ -17,7 +17,7 @@ const HomePage = () => {
         </Button>
      </div>
      <div className='md:w-1/2 rounded-lg bg-[#dad8d8] shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff]'>
-     <img className='mix-blend-multiply ' src="https://www.lonetreevet.com/blog/wp-content/uploads/2017/02/LoneTree_iStock-106396236.jpg" alt=""/>
+     <img className='mix-blend-multiply ' src="https://media.istockphoto.com/id/167580039/photo/group-of-pets-dog-cat-bird-reptile-rabbit.jpg?s=612x612&w=0&k=20&c=4eR0Hm24eedR4AJ46j6b8ZZUACi3GoRYk99QGKFLO20=" alt="pet image"/>
      </div>
         
     </section>

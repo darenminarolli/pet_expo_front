@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../layouts/Layout';
-import PetCard from '../comopents/ui/PetCard';
+import PetCard from '../components/ui/PetCard';
 import { petService } from '../services/AnimalService';
 import { Pet } from '../types/animal';
-import Filter from '../comopents/Filter';
+import Filter from '../components/Filter';
 
 const PetsPage = () => {
   const params = useParams();
@@ -18,7 +18,7 @@ const PetsPage = () => {
     const fetchPets = async () => {
       if (type === 'birds' || type === 'cats' || type === 'dogs') {
         try {
-          const data = await petService.getPets(type);
+          const data = await petService.getPetsByType(type);
           setPets(data);
           setFilteredPets(data);
         } catch (error) {
@@ -61,7 +61,7 @@ console.log(petName)
       <Filter className='justify-center' petName={petName} setPetName={setPetName} />
       <div className='w-full flex flex-wrap gap-10 my-14 md:my-24 md:py-24'>
         {filteredPets.length > 0 ? (
-          filteredPets.map((pet) => <PetCard key={pet.id} pet={pet} />)
+          filteredPets.map((pet) => <PetCard key={pet._id} pet={pet} />)
         ) : (
           <div>No pets found!</div>
         )}

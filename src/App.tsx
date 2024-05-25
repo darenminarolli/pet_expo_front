@@ -2,7 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
 import './App.css'
 
 import HomePage from './pages/HomePage'
-import NavBar from './comopents/NavBar'
+import NavBar from './components/NavBar'
 import PetsPage from './pages/PetsPage'
 import AdminPage from './pages/AdminPage'
 function App() {

@@ -10,7 +10,15 @@ interface PetCardProps {
 
 const PetCard: React.FC<PetCardProps> = ({ pet }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const excludeKeys = [
+    "image_path",
+    "_id",
+    "type_of_pet",
+    "updatedAt",
+    "__v",
+    "createdAt",
+  ];
+  const base_url = import.meta.env.VITE_BASE_URL;
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
@@ -19,7 +27,7 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
       <div className="relative w-full h-64 md:h-80 lg:h-[700px] overflow-hidden rounded-lg shadow-lg group">
         <img
           className="absolute inset-0 w-full h-full object-cover"
-          src={pet.image}
+          src={base_url + pet.image_path}
           alt={`${pet.name} image`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300"></div>
@@ -39,11 +47,10 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
       <Modal isOpen={showModal} onClose={closeModal}>
         <div className="flex justify-between items-start">
           <h2 className="text-2xl font-bold mb-4">{pet.name}</h2>
-          <CloseIcon onClick={closeModal} />
         </div>
         <div className="flex flex-col gap-y-6">
           {Object.entries(pet).map(([key, value]) => {
-            if (key === "image" || key === "id") return null;
+            if (excludeKeys.includes(key) || value === null) return null;
 
             return (
               <div
