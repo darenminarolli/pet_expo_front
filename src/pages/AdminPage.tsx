@@ -44,7 +44,7 @@ const AdminPage = () => {
         <div className="w-full mt-6 md:mt-24 flex flex-wrap ">
           <div className="w-full flex">
             <h1 className="secondary-header">Filters:</h1>
-            <Filter className="justify-center" />
+            <Filter petName={petName} setPetName={setPetName} className="justify-center" />
           </div>
           <div className=" w-full flex gap-4 flex-wrap md:flex-nowrap justify-end my-6 md:my-14">
             <SecondaryButton

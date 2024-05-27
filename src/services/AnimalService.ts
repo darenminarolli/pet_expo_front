@@ -23,7 +23,7 @@ export const petService = {
   },
     getPetsByType: async (petType: 'birds' | 'dogs' | 'cats'): Promise<Pet[]> => {
         try {
-          const response: AxiosResponse<Pet[]> = await api.get(`/${petType}`);
+          const response: AxiosResponse<Pet[]> = await api.get(`/type/${petType}`);
           return response.data ?? [];
         } catch (error) {
           console.error(`Error fetching ${petType}:`, error);
@@ -32,7 +32,7 @@ export const petService = {
       },
       getPetByName: async (petType: 'birds' | 'dogs' | 'cats', name: string): Promise<Pet[]> => {
         try {
-          const response: AxiosResponse<Pet[]> = await api.get(`/${petType}?name=${name}`);
+          const response: AxiosResponse<Pet[]> = await api.get(`/single/${petType}?name=${name}`);
           return response.data ?? [];
         } catch (error) {
           console.error(`Error getting ${name}`, error);

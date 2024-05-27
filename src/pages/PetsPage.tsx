@@ -15,7 +15,7 @@ const PetsPage = () => {
   const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
-    const fetchPets = async () => {
+    const fetchPets = async () => {  
       if (type === 'birds' || type === 'cats' || type === 'dogs') {
         try {
           const data = await petService.getPetsByType(type);
@@ -29,7 +29,7 @@ const PetsPage = () => {
         setError('Invalid pet type');
       }
     };
-    fetchPets();
+   fetchPets()
   }, [type]);
 
   useEffect(() => {
@@ -49,7 +49,8 @@ const PetsPage = () => {
       }
     };
     getPetByName();
-  }, [petName, pets, type]);
+  }, [petName]);
+
 console.log(petName)
   if (error) {
     return <div>{error}</div>;
