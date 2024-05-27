@@ -38,7 +38,7 @@ const Navbar = () => {
           <a href="#contact">Na Kontaktoni</a>
         </li>
         <li>
-          <a href="/admin">Admin</a>
+          <Link to="/admin">Admin</Link>
         </li>
       </ul>
       <div className="md:hidden">
