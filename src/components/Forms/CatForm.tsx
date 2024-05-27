@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import React, { useState } from 'react';
 import { petService } from '../../services/AnimalService';
 
 interface CatFormProps{

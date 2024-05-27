@@ -1,4 +1,3 @@
-import React from 'react'
 import { WobbleCard } from './ui/Card'
 const AboutUs = () => {
   return (

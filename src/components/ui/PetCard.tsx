@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
-import { Bird, Cat, Dog, Pet } from "../../types/animal";
-import CloseIcon from "./Icons/CloseIcon";
+// import { Bird, Cat, Dog, Pet } from "../../types/animal";
 
 interface PetCardProps {
   pet: any;
