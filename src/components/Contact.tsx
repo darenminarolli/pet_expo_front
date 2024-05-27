@@ -34,9 +34,9 @@ const Contact = () => {
                                 width="500"
                                 height="350"
                                 className='border-solid rounded-lg  w-full  '
-                                allowfullscreen=""
+                                // allowfullscreen=""
                                 loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade">
+                                >
                             </iframe>
        </div>
       </div>
