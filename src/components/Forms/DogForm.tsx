@@ -1,97 +1,79 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { petService } from '../../services/AnimalService';
 
-interface DogFormData {
-  name: string;
-  breed_group: string;
-  size: string;
-  lifespan: string;
-  origin: string;
-  temperament: string;
-  colors: string[];
-  description: string;
-  image_path: File | null;
-  imageUrl: string;
+interface DogFormProps{
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DogForm: React.FC = () => {
-  const [formData, setFormData] = useState<DogFormData>({
-    name: '',
-    breed_group: '',
-    size: '',
-    lifespan: '',
-    origin: '',
-    temperament: '',
-    colors: [''],
-    description: '',
-    image_path: null,
-    imageUrl: ''
-  });
+const DogForm:React.FC<DogFormProps>= ({setSelectedType}) => {
+const [formData, setFormData] = useState({
+  image: null,
+  type_of_pet: 'dogs',
+  name: '',
+  breed_group: '',
+  size: '',
+  lifespan: '',
+  origin: '',
+  temperament: '',
+  colors:[''],
+  description: '',
+});
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+const handleChange = (e:any) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
 
-  const handleColorChange = (index: number, value: string) => {
-    const newColors = [...formData.colors];
-    newColors[index] = value;
-    setFormData({
-      ...formData,
-      colors: newColors
-    });
-  };
+const handleImageChange = (e:any) => {
+  const file = e.target.files[0];
+  setFormData({ ...formData, image: file });
+};
 
-  const addColorField = () => {
-    setFormData({
-      ...formData,
-      colors: [...formData.colors, '']
-    });
-  };
-
-  const removeColorField = (index: number) => {
-    const newColors = formData.colors.filter((_, i) => i !== index);
-    setFormData({
-      ...formData,
-      colors: newColors
-    });
-  };
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          image_path: file,
-          imageUrl: reader.result as string
-        });
-      };
-      reader.readAsDataURL(file);
-    } else {
+const handleColorChange = (index: number, value: string) => {
+      const newColors = [...formData.colors];
+      newColors[index] = value;
       setFormData({
         ...formData,
-        image_path: null,
-        imageUrl: ''
+        colors: newColors
       });
-    }
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const formDataToSubmit = {
-      ...formData,
-      colors: formData.colors.filter(color => color !== '')
     };
-    console.log('Form submitted:', formDataToSubmit);
-    // Here you would typically send the form data to your backend server
-  };
+  
+    const addColorField = () => {
+      setFormData({
+        ...formData,
+        colors: [...formData.colors, '']
+      });
+    };
+  
+    const removeColorField = (index: number) => {
+      const newColors = formData.colors.filter((_, i) => i !== index);
+      setFormData({
+        ...formData,
+        colors: newColors
+      });
+    };
 
-  return (
-    <form onSubmit={handleSubmit} className="mx-auto py-4 bg-white shadow-md rounded-lg space-y-4">
+const handleSubmit = async (e:any) => {
+  e.preventDefault();
+  const form = e.target;
+  const formDataToSend = new FormData(form);
+  formDataToSend.append('type_of_pet', formData.type_of_pet);
+  const colors = JSON.stringify(formData.colors);
+  formDataToSend.append('colors', colors);
+  try {
+    const response = await petService.createPet(formDataToSend)
+    const data = await response.json();
+    console.log('Response:', data);
+  } catch (error) {
+    console.error('Error:', error);
+  }finally{
+    setSelectedType('')
+  }
+};
+
+return (
+  <div>
+  <form  encType="multipart/form-data" onSubmit={handleSubmit} className="mx-auto py-4 bg-white shadow-md rounded-lg space-y-4">
       <h2 className='secondary-header'>New Dog</h2>
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
@@ -166,7 +148,7 @@ const DogForm: React.FC = () => {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Colors:</label>
+         <label className="block text-sm font-medium text-gray-700">Colors:</label>
         {formData.colors.map((color, index) => (
           <div key={index} className="flex items-center mt-1">
             <input
@@ -196,6 +178,7 @@ const DogForm: React.FC = () => {
           Add Color
         </button>
       </div>
+
       <div>
         <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
         <textarea
@@ -208,25 +191,16 @@ const DogForm: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="image_path" className="block text-sm font-medium text-gray-700">Image:</label>
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image:</label>
         <input
           type="file"
-          id="image_path"
-          name="image_path"
-          accept="image/*"
+          id="image"
+          name="image"
+          // accept="image/*"
           onChange={handleImageChange}
           className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           required
         />
-        {formData.imageUrl && (
-          <div className="mt-2">
-            <img
-              src={formData.imageUrl}
-              alt="Preview"
-              className="w-full p-2 h-64 object-cover rounded-md"
-            />
-          </div>
-        )}
       </div>
       <button
         type="submit"
@@ -235,7 +209,9 @@ const DogForm: React.FC = () => {
         Submit
       </button>
     </form>
-  );
+  </div>
+);
 };
+
 
 export default DogForm;

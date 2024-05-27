@@ -1,7 +1,10 @@
 import React from 'react'
 import SecondaryButton from './SecondaryButton'
-
-const SecondaryCard = ({pet}:{pet:any}) => {
+interface SecondaryButtonProps{
+  pet:any
+  handleDeletePet: (id: string) => Promise<void>
+}
+const SecondaryCard:React.FC<SecondaryButtonProps> = ({pet, handleDeletePet}) => {
     const base_url = import.meta.env.VITE_BASE_URL
   return (
     <div className='w-full rounded-md flex flex-wrap md:flex-nowrap h-fit justify-between bg-slate-950 shadow-lg text-slate-50 hover:scale-y-[1.02] hover:scale-x-[1.01]  transition duration-200 '>
@@ -21,7 +24,7 @@ const SecondaryCard = ({pet}:{pet:any}) => {
               Edit 🛠️
             </SecondaryButton>
         <SecondaryButton
-              onClick={() => {}}
+              onClick={()=> handleDeletePet(pet._id)}
               className="w-full md:w-3/4 bg-red-700 text-slate-50"
             >
               Delete 🗑️

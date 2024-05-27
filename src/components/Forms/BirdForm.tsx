@@ -1,77 +1,55 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { petService } from '../../services/AnimalService';
 
-interface BirdFormData {
-  name: string;
-  image_path: File | null;
-  imageUrl: string;
-  description: string;
-  origin: string;
-  species: string;
-  family: string;
-  habitat: string;
-  place_of_found: string;
-  diet: string;
-  weight_kg: number;
-  height_cm: number;
+interface DogFormProps{
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>
 }
 
-const BirdForm: React.FC = () => {
-  const [formData, setFormData] = useState<BirdFormData>({
-    name: '',
-    image_path: null,
-    imageUrl: '',
-    description: '',
-    origin: '',
-    species: '',
-    family: '',
-    habitat: '',
-    place_of_found: '',
-    diet: '',
-    weight_kg: 0,
-    height_cm: 0,
-  });
+const DogForm:React.FC<DogFormProps>= ({setSelectedType}) => {
+const [formData, setFormData] = useState({
+  image: null,
+  type_of_pet: 'birds',
+  name: '',
+  species: '',
+  family: '',
+  habitat: '',
+  place_of_found: '',
+  diet: '',
+  wingspan_cm:'',
+  weight_kg:'',
+  description: '',
+});
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'weight_kg' || name === 'height_cm' ? parseFloat(value) : value
-    });
-  };
+const handleChange = (e:any) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          image_path: file,
-          imageUrl: reader.result as string
-        });
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setFormData({
-        ...formData,
-        image_path: null,
-        imageUrl: ''
-      });
-    }
-  };
+const handleImageChange = (e:any) => {
+  const file = e.target.files[0];
+  setFormData({ ...formData, image: file });
+};
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const formDataToSubmit = {
-      ...formData,
-    };
-    console.log('Form submitted:', formDataToSubmit);
-    // Here you would typically send the form data to your backend server
-  };
+const handleSubmit = async (e:any) => {
+  e.preventDefault();
+  const form = e.target;
+  const formDataToSend = new FormData(form);
+  formDataToSend.append('type_of_pet', formData.type_of_pet);
+  try {
+    const response = await petService.createPet(formDataToSend)
+    const data = await response.json();
+    console.log('Response:', data);
+  } catch (error) {
+    console.error('Error:', error);
+  }finally{
+    setSelectedType('')
+  }
+};
 
-  return (
-    <form onSubmit={handleSubmit} className="mx-auto py-4 bg-white shadow-md rounded-lg space-y-4">
-        <h2 className='secondary-header'>New Bird</h2>
+return (
+  <div>
+  <form  encType="multipart/form-data" onSubmit={handleSubmit} className="mx-auto py-4 bg-white shadow-md rounded-lg space-y-4">
+      <h2 className='secondary-header'>New Bird</h2>
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
         <input
@@ -79,50 +57,6 @@ const BirdForm: React.FC = () => {
           id="name"
           name="name"
           value={formData.name}
-          onChange={handleChange}
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="image_path" className="block text-sm font-medium text-gray-700">Image:</label>
-        <input
-          type="file"
-          id="image_path"
-          name="image_path"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          required
-        />
-        {formData.imageUrl && (
-          <div className="mt-2">
-            <img
-              src={formData.imageUrl}
-              alt="Preview"
-              className="w-full h-64 object-cover rounded-md"
-            />
-          </div>
-        )}
-      </div>
-      <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="origin" className="block text-sm font-medium text-gray-700">Origin:</label>
-        <input
-          type="text"
-          id="origin"
-          name="origin"
-          value={formData.origin}
           onChange={handleChange}
           className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           required
@@ -165,7 +99,7 @@ const BirdForm: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="place_of_found" className="block text-sm font-medium text-gray-700">Place of Found:</label>
+        <label htmlFor="place_of_found" className="block text-sm font-medium text-gray-700">Place of found:</label>
         <input
           type="text"
           id="place_of_found"
@@ -189,9 +123,21 @@ const BirdForm: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="weight_kg" className="block text-sm font-medium text-gray-700">Weight (kg):</label>
+        <label htmlFor="wingspan_cm" className="block text-sm font-medium text-gray-700">Wingspan in CM:</label>
         <input
-          type="number"
+          type="text"
+          id="wingspan_cm"
+          name="wingspan_cm"
+          value={formData.wingspan_cm}
+          onChange={handleChange}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="weight_kg" className="block text-sm font-medium text-gray-700">Weight in KG:</label>
+        <input
+          type="text"
           id="weight_kg"
           name="weight_kg"
           value={formData.weight_kg}
@@ -201,13 +147,24 @@ const BirdForm: React.FC = () => {
         />
       </div>
       <div>
-        <label htmlFor="height_cm" className="block text-sm font-medium text-gray-700">Height (cm):</label>
-        <input
-          type="number"
-          id="height_cm"
-          name="height_cm"
-          value={formData.height_cm}
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          value={formData.description}
           onChange={handleChange}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image:</label>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          // accept="image/*"
+          onChange={handleImageChange}
           className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           required
         />
@@ -219,7 +176,9 @@ const BirdForm: React.FC = () => {
         Submit
       </button>
     </form>
-  );
+  </div>
+);
 };
 
-export default BirdForm;
+
+export default DogForm;

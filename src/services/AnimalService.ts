@@ -39,5 +39,26 @@ export const petService = {
           return [];
         }
       },
-}
+      createPet: async (req:FormData) => {
+        try {
+          const response = await api.post('/', req, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          return response.data;
+        } catch (error) {
+          console.error('Error creating pet', error);
+        }
+      },
+      deletePet: async (req: string)=>{
+        try {
+          const response:AxiosResponse = await api.delete(`/${req}`);
+          return response.data;
+        } catch (error) {
+          
+        }console.error('Error deleting pet')
+      }
+      }
+
   

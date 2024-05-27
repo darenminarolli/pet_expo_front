@@ -25,6 +25,15 @@ const AdminPage = () => {
    }
    fetchPets()
   },[])
+  const handleDeletePet = async(id:string) =>{
+    try{
+      const response = await petService.deletePet(id)
+      console.log(response)
+      window.location.reload()
+    }catch(error){
+      console.error(error)
+    }
+  }
   return (
     <Layout>
       <section className="w-full flex flex-wrap gap-10 my-14 md:my-14 md:py-14 ">
@@ -65,8 +74,8 @@ const AdminPage = () => {
           </div>
         </div>
         {selectedType && <h2>Pet Selected: {selectedType}</h2>}
-        <div className="w-full p-4 flex flex-col bg-slate-50 rounded-lg drop-shadow-xl ">
-          {pets.map( pet=>  <SecondaryCard key={pet._id} pet={pet} />)}
+        <div className="w-full p-4 flex flex-col bg-slate-50 rounded-lg drop-shadow-xl space-y-6 ">
+          {pets.map( pet=>  <SecondaryCard key={pet._id} pet={pet} handleDeletePet={handleDeletePet} />)}
         </div>
       </section>
       {showModal && <CreatePet setShowModal={setShowModal}/>}

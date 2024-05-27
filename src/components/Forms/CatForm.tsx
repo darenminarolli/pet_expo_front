@@ -1,66 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { petService } from '../../services/AnimalService';
 
-const CatForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    origin: "",
-    temperament: "",
-    colors: [""],
-    description: "",
-    image: "",
-  });
+interface CatFormProps{
+  setSelectedType: React.Dispatch<React.SetStateAction<string>>
+}
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+const CatForm:React.FC<CatFormProps>= ({setSelectedType}) => {
+const [formData, setFormData] = useState({
+  image: null,
+  type_of_pet: 'cats',
+  name: '',
+  origin: '',
+  temperament: '',
+  colors:[''],
+  description: '',
+});
 
-  const handleColorChange = (index: number, value: string) => {
-    const newColors = [...formData.colors];
-    newColors[index] = value;
-    setFormData({
-      ...formData,
-      colors: newColors,
-    });
-  };
+const handleChange = (e:any) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
 
-  const addColorField = () => {
-    setFormData({
-      ...formData,
-      colors: [...formData.colors, ""],
-    });
-  };
+const handleImageChange = (e:any) => {
+  const file = e.target.files[0];
+  setFormData({ ...formData, image: file });
+};
 
-  const removeColorField = (index: number) => {
-    const newColors = formData.colors.filter((_, i) => i !== index);
-    setFormData({
-      ...formData,
-      colors: newColors,
-    });
-  };
+const handleColorChange = (index: number, value: string) => {
+      const newColors = [...formData.colors];
+      newColors[index] = value;
+      setFormData({
+        ...formData,
+        colors: newColors
+      });
+    };
+  
+    const addColorField = () => {
+      setFormData({
+        ...formData,
+        colors: [...formData.colors, '']
+      });
+    };
+  
+    const removeColorField = (index: number) => {
+      const newColors = formData.colors.filter((_, i) => i !== index);
+      setFormData({
+        ...formData,
+        colors: newColors
+      });
+    };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Here you would typically send the form data to your backend server
-  };
+const handleSubmit = async (e:any) => {
+  e.preventDefault();
+  const form = e.target;
+  const formDataToSend = new FormData(form);
+  formDataToSend.append('type_of_pet', formData.type_of_pet);
+  const colors = JSON.stringify(formData.colors);
+  formDataToSend.append('colors', colors);
+  try {
+    const response = await petService.createPet(formDataToSend)
+    const data = await response.json();
+    console.log('Response:', data);
+  } catch (error) {
+    console.error('Error:', error);
+  }finally{
+    setSelectedType('')
+  }
+};
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className=" mx-auto py-4 bg-white shadow-md rounded-lg space-y-4"
-    >
-      <h2 className="secondary-header" >New Cat</h2>
+return (
+  <div>
+  <form  encType="multipart/form-data" onSubmit={handleSubmit} className="mx-auto py-4 bg-white shadow-md rounded-lg space-y-4">
+      <h2 className='secondary-header'>New Cat</h2>
       <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Name:
-        </label>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
         <input
           type="text"
           id="name"
@@ -72,12 +85,7 @@ const CatForm = () => {
         />
       </div>
       <div>
-        <label
-          htmlFor="origin"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Origin:
-        </label>
+        <label htmlFor="origin" className="block text-sm font-medium text-gray-700">Origin:</label>
         <input
           type="text"
           id="origin"
@@ -89,12 +97,7 @@ const CatForm = () => {
         />
       </div>
       <div>
-        <label
-          htmlFor="temperament"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Temperament:
-        </label>
+        <label htmlFor="temperament" className="block text-sm font-medium text-gray-700">Temperament:</label>
         <input
           type="text"
           id="temperament"
@@ -106,9 +109,7 @@ const CatForm = () => {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Colors:
-        </label>
+         <label className="block text-sm font-medium text-gray-700">Colors:</label>
         {formData.colors.map((color, index) => (
           <div key={index} className="flex items-center mt-1">
             <input
@@ -123,7 +124,7 @@ const CatForm = () => {
               <button
                 type="button"
                 onClick={() => removeColorField(index)}
-                className="ml-2 bg-red-500 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="ml-2 p-2 bg-red-500 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
               >
                 Remove
               </button>
@@ -138,13 +139,9 @@ const CatForm = () => {
           Add Color
         </button>
       </div>
+
       <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Description:
-        </label>
+        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
         <textarea
           id="description"
           name="description"
@@ -155,18 +152,13 @@ const CatForm = () => {
         />
       </div>
       <div>
-        <label
-          htmlFor="image"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Image URL:
-        </label>
+        <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image:</label>
         <input
           type="file"
           id="image"
           name="image"
-          value={formData.image}
-          onChange={handleChange}
+          // accept="image/*"
+          onChange={handleImageChange}
           className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
           required
         />
@@ -178,7 +170,9 @@ const CatForm = () => {
         Submit
       </button>
     </form>
-  );
+  </div>
+);
 };
+
 
 export default CatForm;
