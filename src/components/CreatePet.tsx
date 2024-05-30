@@ -7,11 +7,12 @@ import BirdForm from "./Forms/BirdForm";
 
 interface CreatePetProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showModal: boolean
 }
-const CreatePet: React.FC<CreatePetProps> = ({ setShowModal }) => {
+const CreatePet: React.FC<CreatePetProps> = ({ setShowModal, showModal }) => {
   const [selectedType, setSelectedType] = useState<string>("");
   return (
-    <Modal className="" isOpen={true} onClose={() => setShowModal(false)}>
+    <Modal className="" isOpen={showModal} onClose={() => setShowModal(false)}>
       <h1 className="text-center primary-header">Create New Pet</h1>
       <div className="w-full my-10">
         <h2 className="secondary-header">Choose Pet's type:</h2>
@@ -36,9 +37,9 @@ const CreatePet: React.FC<CreatePetProps> = ({ setShowModal }) => {
           </SecondaryButton>
         </div>
       </div>
-      {selectedType === "dogs" && <DogForm setSelectedType={setSelectedType} />}
-      {selectedType === "cats" && <CatForm setSelectedType={setSelectedType} />}
-      {selectedType === "birds" && <BirdForm setSelectedType={setSelectedType} />}
+      {selectedType === "dogs" && <DogForm    />}
+      {selectedType === "cats" && <CatForm    />}
+      {selectedType === "birds" && <BirdForm  />}
     </Modal>
   );
 };

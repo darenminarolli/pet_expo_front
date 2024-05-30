@@ -35,7 +35,6 @@ nav>ul>li>a{
   @apply hover:underline 
 }
 
-/* pet-card */
 .pet-card{
   @apply absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300
 }

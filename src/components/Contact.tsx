@@ -1,10 +1,10 @@
 
 const Contact = () => {
   return (
-    <section id="contact" className="w-full  flex flex-wrap justify-between my-14 md:my-24 md:py-24 ">
-      <div className="w-full min-h-[400px] h-full grid md:grid-cols-2 col-span-2 text-slate-100 bg-slate-900 rounded-lg shadow-lg p-16 " >
+    <section id="contact" className="w-full flex flex-wrap justify-between my-14 md:my-24 md:py-24 ">
+      <div className="w-full min-h-[400px] h-full grid md:grid-cols-2 col-span-2 text-slate-100 bg-slate-900 rounded-lg shadow-lg p-2 md:p-16  " >
        <div>
-        <h1 className="section-header mb-6 ">#Contact Us</h1>
+        <h1 className="primary-header mb-6 ">#Contact Us</h1>
         <address className="not-italic text-2xl mb-10">
           <p className="mb-4">
             <strong>Our Office:</strong> 123 Main Street,

@@ -1,13 +1,27 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
+  const location = useLocation()
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    switch (location.hash) {
+      case '#about':
+        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      case '#contact':
+        document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        break;
+      default:
+        break;
+    }
+  }, [location]);
+  
   return (
     <nav className="flex justify-between items-center rounded-lg fixed w-full px-4 py-4 bg-white shadow-lg z-50 max-w-[1450px] mx-auto">
       <h1 className="text-lg font-bold underline">
@@ -35,7 +49,7 @@ const Navbar = () => {
           <a href="/#about">Rreth Nesh</a>
         </li>
         <li>
-          <a href="#contact">Na Kontaktoni</a>
+          <a href="/#contact">Na Kontaktoni</a>
         </li>
         <li>
           <Link to="/admin">Admin</Link>
@@ -64,10 +78,10 @@ const Navbar = () => {
             </ul>
           </li>
           <li className="px-4 py-2">
-            <Link to="#about" onClick={toggleMenu}>Rreth Nesh</Link>
+            <a href="/#about" onClick={toggleMenu}>Rreth Nesh</a>
           </li>
           <li className="px-4 py-2">
-            <Link to="#contact" onClick={toggleMenu}>Na Kontaktoni</Link>
+            <a href="/#contact" onClick={toggleMenu}>Na Kontaktoni</a>
           </li>
           <li className="px-4 py-2">
             <Link to="/admin" onClick={toggleMenu}>Admin</Link>

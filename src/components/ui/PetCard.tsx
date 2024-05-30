@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
-// import { Bird, Cat, Dog, Pet } from "../../types/animal";
 
 interface PetCardProps {
   pet: any;
@@ -20,6 +19,10 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
   const base_url = import.meta.env.VITE_BASE_URL;
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
+
+  const handleColorFormat = (colors: string) => {
+    return colors.replace(/[\[\]"]+/g, " ");
+  };
 
   return (
     <>
@@ -58,7 +61,11 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
               >
                 <span className="font-semibold uppercase">{key}:</span>
                 <span className="md:max-w-[500px] text-end text-wrap">
-                  {Array.isArray(value) ? value.join(", ") : String(value)}
+                  {key === "colors"
+                    ? handleColorFormat(String(value))
+                    : Array.isArray(value)
+                    ? value.join(", ")
+                    : String(value)}{" "}
                 </span>
               </div>
             );

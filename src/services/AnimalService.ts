@@ -30,9 +30,13 @@ export const petService = {
           return [];
         }
       },
-      getPetByName: async (petType: 'birds' | 'dogs' | 'cats', name: string): Promise<Pet[]> => {
+      getPetByName: async (name: string, type?:string ): Promise<Pet[]> => {
         try {
-          const response: AxiosResponse<Pet[]> = await api.get(`/single/${petType}?name=${name}`);
+          let typeQuery = ''
+          if(type){
+            typeQuery = `?type=${type}`
+          }
+          const response: AxiosResponse<Pet[]> = await api.get(`/single/${name}${typeQuery}`);
           return response.data ?? [];
         } catch (error) {
           console.error(`Error getting ${name}`, error);
@@ -51,6 +55,18 @@ export const petService = {
           console.error('Error creating pet', error);
         }
       },
+      updatePet: async (id: string, data:FormData) => {
+          try {
+            const response = await api.put(`/${id}`, data, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            return response.data;
+          } catch (error) {
+            console.error('Error editing pet', error);
+          }
+        },
       deletePet: async (req: string)=>{
         try {
           const response:AxiosResponse = await api.delete(`/${req}`);
