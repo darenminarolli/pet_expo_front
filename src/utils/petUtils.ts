@@ -5,13 +5,16 @@ export const getPetsByType = async (
   setFilteredPets: (value: React.SetStateAction<Pet[]>) => void,
   setError: (value: React.SetStateAction<string | undefined>) => void,
   pets: Pet[],
-  type?: string
+  type?: string,
+  setPets?: React.Dispatch<React.SetStateAction<Pet[]>>
 ) => {
-
   if (type === "birds" || type === "cats" || type === "dogs") {
     try {
       const data = await petService.getPetsByType(type);
       setFilteredPets(data);
+      if (setPets) {
+        setPets(data);
+      }
     } catch (error) {
       console.error(error);
       setError("Error getting pets! Please try again!");
@@ -20,6 +23,7 @@ export const getPetsByType = async (
     setFilteredPets(pets);
   }
 };
+
 
 export const getPetByName = async (
   petName: string,
@@ -31,15 +35,11 @@ export const getPetByName = async (
     setFilteredPets(pets);
     return;
   }
- 
-    try {
-      const data = await petService.getPetByName(petName);
-      setFilteredPets(data);
-    } catch (error) {
-      console.error(error);
-    }
-  
+
+  try {
+    const data = await petService.getPetByName(petName, type);
+    setFilteredPets(data);
+  } catch (error) {
+    console.error(error);
+  }
 };
-
-
-

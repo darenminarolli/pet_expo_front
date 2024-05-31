@@ -15,10 +15,11 @@ const PetsPage = () => {
   const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
-    getPetsByType(setFilteredPets, setError, pets, type);
+    getPetsByType(setFilteredPets, setError, pets, type, setPets);
   }, [type]);
 
   useEffect(() => {
+    console.log('activated', petName)
     getPetByName(petName, setFilteredPets, pets, type);
   }, [petName]);
 

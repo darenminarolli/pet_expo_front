@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import SecondaryButton from "./SecondaryButton";
-import { petService } from "../../services/AnimalService";
 import { Pet } from "../../types/animal";
 
 interface SecondaryButtonProps {

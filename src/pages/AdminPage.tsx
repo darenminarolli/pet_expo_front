@@ -38,7 +38,7 @@ const AdminPage = () => {
     const filterPets = async () => {
       if (petName) {
         await getPetByName(petName, setFilteredPets, pets, type);
-        console.log("name");
+
       } else {
         await getPetsByType(setFilteredPets, setError, pets, type);
       }
