@@ -16,7 +16,7 @@ const AdminPage = () => {
   const [filteredPets, setFilteredPets] = useState<Pet[]>([]);
   const [petName, setPetName] = useState("");
   const [editPet, setEditPet] = useState<Pet | null>(null);
-  const [type, setType] = useState<string>('');
+  const [type, setType] = useState<string>("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [error, setError] = useState<string | undefined>();
@@ -37,11 +37,10 @@ const AdminPage = () => {
   useEffect(() => {
     const filterPets = async () => {
       if (petName) {
-        await getPetByName(petName, setFilteredPets,pets, type);
-      } else if (type !=='' && petName === '') {
-        await getPetsByType(setPets, setFilteredPets, setError, type);
+        await getPetByName(petName, setFilteredPets, pets, type);
+        console.log("name");
       } else {
-        setFilteredPets(pets);
+        await getPetsByType(setFilteredPets, setError, pets, type);
       }
     };
     filterPets();
@@ -103,7 +102,7 @@ const AdminPage = () => {
               Birds 🦜
             </SecondaryButton>
             <SecondaryButton
-              onClick={() => handleTypeSelection('')}
+              onClick={() => handleTypeSelection("")}
               className="w-full md:w-1/4 bg-rose-100 text-black"
             >
               All 🐶 😼 🦜
@@ -112,7 +111,7 @@ const AdminPage = () => {
         </div>
         {type && <h2>Pet Selected: {type.toUpperCase()}</h2>}
         <div className="w-full p-4 flex flex-col bg-slate-50 rounded-lg drop-shadow-xl space-y-6">
-          {filteredPets.length > 0 ? 
+          {filteredPets.length > 0 ? (
             filteredPets.map((pet) => (
               <SecondaryCard
                 key={pet._id}
@@ -122,22 +121,22 @@ const AdminPage = () => {
                 setShowEditModal={setShowEditModal}
               />
             ))
-           : 
+          ) : (
             <div>No Pets Found</div>
-        }
+          )}
         </div>
       </section>
       <CreatePet
         showModal={showCreateModal}
         setShowModal={setShowCreateModal}
       />
-      {editPet && 
+      {editPet && (
         <EditPet
           showModal={showEditModal}
           setShowModal={setShowEditModal}
           pet={editPet}
         />
-      }
+      )}
     </Layout>
   );
 };

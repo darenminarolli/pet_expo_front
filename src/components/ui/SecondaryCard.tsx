@@ -21,7 +21,7 @@ const SecondaryCard: React.FC<SecondaryButtonProps> = ({
     setEditPet(pet)
     setShowEditModal(true) 
   }
-  
+
   return (
     <>
     <div className="w-full rounded-md flex flex-wrap md:flex-nowrap h-fit justify-between bg-slate-950 shadow-lg text-slate-50 hover:scale-y-[1.02] hover:scale-x-[1.01]  transition duration-200 ">
@@ -46,7 +46,10 @@ const SecondaryCard: React.FC<SecondaryButtonProps> = ({
           Edit 🛠️
         </SecondaryButton>
         <SecondaryButton
-          onClick={() => handleDeletePet(pet._id)}
+          onClick={() =>{
+            window.confirm("Are you sure you want to delete this pet?") && handleDeletePet(pet._id)
+          }
+             }
           className="w-full md:w-3/4 bg-red-700 text-slate-50"
         >
           Delete 🗑️

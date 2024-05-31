@@ -2,22 +2,22 @@ import { petService } from "../services/AnimalService";
 import { Pet } from "../types/animal";
 
 export const getPetsByType = async (
-  setPets: (value: React.SetStateAction<Pet[]>) => void,
   setFilteredPets: (value: React.SetStateAction<Pet[]>) => void,
   setError: (value: React.SetStateAction<string | undefined>) => void,
+  pets: Pet[],
   type?: string
 ) => {
+
   if (type === "birds" || type === "cats" || type === "dogs") {
     try {
       const data = await petService.getPetsByType(type);
-      setPets(data);
       setFilteredPets(data);
     } catch (error) {
       console.error(error);
       setError("Error getting pets! Please try again!");
     }
   } else {
-    setError("Invalid pet type");
+    setFilteredPets(pets);
   }
 };
 
@@ -31,7 +31,6 @@ export const getPetByName = async (
     setFilteredPets(pets);
     return;
   }
-
  
     try {
       const data = await petService.getPetByName(petName);

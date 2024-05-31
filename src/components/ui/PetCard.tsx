@@ -52,7 +52,7 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
         </div>
         <div className="flex flex-col gap-y-6">
           {Object.entries(pet).map(([key, value]) => {
-            if (excludeKeys.includes(key) || value === null) return null;
+            if (excludeKeys.includes(key) || value === null || (Array.isArray(value) && value.length < 1 )) return null;
 
             return (
               <div
