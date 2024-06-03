@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { petService } from "../../services/AnimalService";
 import { Bird } from "../../types/animal";
-import { useNavigate } from "react-router-dom";
 import SecondaryButton from "../ui/SecondaryButton";
 
 interface DogFormProps {
@@ -9,7 +9,6 @@ interface DogFormProps {
 }
 
 const DogForm: React.FC<DogFormProps> = ({ pet }) => {
-  const navigate = useNavigate()
 
   const [formData, setFormData] = useState<Bird>({
     image: null,
@@ -53,11 +52,11 @@ const DogForm: React.FC<DogFormProps> = ({ pet }) => {
     try {
       if (pet && pet._id) {
        const updatedPet =  await petService.updatePet(pet._id, formDataToSend);
-       if (updatedPet) navigate(0)
+       if (updatedPet) window.location.reload()
       } else {
       
        const newPet=  await petService.createPet(formDataToSend);
-        if (newPet) navigate(0)
+        if (newPet) window.location.reload()
       }
     } catch (error) {
       console.error("Error:", error);

@@ -37,7 +37,8 @@ export const getPetByName = async (
   }
 
   try {
-    const data = await petService.getPetByName(petName, type);
+    const name = petName.trim()
+    const data = await petService.getPetByName(name, type);
     setFilteredPets(data);
   } catch (error) {
     console.error(error);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
@@ -15,13 +16,14 @@ const PetCard: React.FC<PetCardProps> = ({ pet }) => {
     "updatedAt",
     "__v",
     "createdAt",
+    "name",
   ];
   const base_url = import.meta.env.VITE_BASE_URL;
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   const handleColorFormat = (colors: string) => {
-    return colors.replace(/[\[\]"]+/g, " ");
+    return colors.replace(/[[\]"]+/g, " ");
   };
 
   return (

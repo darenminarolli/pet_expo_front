@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { petService } from "../../services/AnimalService";
 import { Cat } from "../../types/animal";
@@ -76,9 +77,11 @@ const CatForm: React.FC<CatFormProps> = ({ pet }) => {
     formDataToSend.append("colors", colors);
     try {
       if (pet && pet._id) {
-        await petService.updatePet(String(pet._id), formDataToSend);
+       const updatedPet = await petService.updatePet(String(pet._id), formDataToSend);
+       if(updatedPet) window.location.reload()
       } else {
-        await petService.createPet(formDataToSend);
+       const newPet = await petService.createPet(formDataToSend);
+        if(newPet) window.location.reload()
       }
     } catch (error) {
       console.error("Error:", error);

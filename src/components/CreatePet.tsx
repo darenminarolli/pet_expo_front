@@ -37,9 +37,9 @@ const CreatePet: React.FC<CreatePetProps> = ({ setShowModal, showModal }) => {
           </SecondaryButton>
         </div>
       </div>
-      {selectedType === "dogs" && <DogForm    />}
-      {selectedType === "cats" && <CatForm    />}
-      {selectedType === "birds" && <BirdForm  />}
+      {selectedType === "dogs" && <DogForm />}
+      {selectedType === "cats" && <CatForm />}
+      {selectedType === "birds" && <BirdForm/>}
     </Modal>
   );
 };

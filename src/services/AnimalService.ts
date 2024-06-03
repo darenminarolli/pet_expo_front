@@ -72,8 +72,8 @@ export const petService = {
           const response:AxiosResponse = await api.delete(`/${req}`);
           return response.data;
         } catch (error) {
-          
-        }console.error('Error deleting pet')
+          console.error('Error deleting pet')
+        }
       }
       }
 

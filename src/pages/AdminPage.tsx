@@ -1,4 +1,3 @@
-// src/pages/AdminPage.tsx
 import { useEffect, useState } from "react";
 import Layout from "../layouts/Layout";
 import Button from "../components/ui/Button";

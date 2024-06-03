@@ -29,6 +29,8 @@ const PetsPage = () => {
 
   return (
     <Layout>
+      <div className="w-full flex flex-wrap md:flex-nowrap">
+
       <h1 className="self-start md:text-3xl font-bold underline ">
         #{type?.toUpperCase()}
       </h1>
@@ -37,6 +39,7 @@ const PetsPage = () => {
         petName={petName}
         setPetName={setPetName}
       />
+      </div>
       <div className="w-full flex flex-wrap gap-10 my-14 md:my-24 md:py-24">
         {filteredPets.length > 0 ? (
           filteredPets.map((pet) => <PetCard key={pet._id} pet={pet} />)
